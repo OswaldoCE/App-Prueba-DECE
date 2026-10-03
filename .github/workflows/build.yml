@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-mac:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - name: Descargar codigo
         uses: actions/checkout@v4
@@ -23,10 +23,15 @@ jobs:
 
       - name: Compilar con PyInstaller
         run: |
-          pyinstaller --noconfirm --windowed --add-data "logo_udg.png:." --collect-all customtkinter app_dece.py
+          pyinstaller --noconfirm --windowed --add-data "logo_udg.png:." --collect-all customtkinter app_prueba.py
 
-      - name: Guardar ejecutable .app
+      - name: Comprimir aplicacion .app a ZIP
+        run: |
+          cd dist
+          zip -r app_prueba_mac.zip app_prueba.app
+
+      - name: Guardar ejecutable .zip
         uses: actions/upload-artifact@v4
         with:
           name: Aplicacion-macOS
-          path: dist/app_dece.app
+          path: dist/app_prueba_mac.zip
